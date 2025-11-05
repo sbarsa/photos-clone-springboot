@@ -1,9 +1,12 @@
 package com.sergiubarsa.photosclone;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class Photo {
 
     private String id;
 
+    @NotBlank
     private String fileName;
 
     public Photo() {
