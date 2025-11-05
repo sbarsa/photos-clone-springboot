@@ -5,18 +5,20 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.IOException;
 import java.util.*;
 
 @RestController
 public class PhotosController {
 
+    private final PhotosService photosService;
 
-    private Map<String, Photo> db = new HashMap<>() {{
-        put("1", new Photo("1", "hello.jpg"));
-
-    }};
+    public PhotosController(PhotosService photosService) {
+        this.photosService = photosService;
+    }
 
     @GetMapping("/")
     public String hello() {
@@ -26,13 +28,13 @@ public class PhotosController {
     @GetMapping("/photos")
     public Collection<Photo> get() {
 
-        return Collections.unmodifiableCollection(db.values());
+        return photosService.get();
     }
 
 
     @GetMapping("/photos/{id}")
     public Photo get(@PathVariable String id) {
-        Photo photo = db.get(id);
+        Photo photo = photosService.get(id);
         if (photo == null) {
             throw new ResponseStatusException(HttpStatusCode.valueOf(404));
         }
@@ -42,7 +44,7 @@ public class PhotosController {
 
     @DeleteMapping("/photos/{id}")
     public Photo delete(@PathVariable String id) {
-        Photo removedPhoto = db.remove(id);
+        Photo removedPhoto = photosService.remove(id);
         if (removedPhoto == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
@@ -51,10 +53,10 @@ public class PhotosController {
     }
 
     @PostMapping("/photos")
-    public Photo create(@RequestBody @Valid Photo photo) {
-        photo.setId(UUID.randomUUID().toString());
+    public Photo create(@RequestPart("data") MultipartFile file) throws IOException {
 
-        db.put(photo.getId(), photo);
+
+        photosService.save(photo.getId(), photo);
 
         return photo;
     }

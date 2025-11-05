@@ -1,5 +1,6 @@
 package com.sergiubarsa.photosclone;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotBlank;
 
 public class Photo {
@@ -8,6 +9,9 @@ public class Photo {
 
     @NotBlank
     private String fileName;
+
+    @JsonIgnore
+    private byte[] data;
 
     public Photo() {
     }
@@ -31,5 +35,13 @@ public class Photo {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public byte[] getData() {
+        return data;
+    }
+
+    public void setData(byte[] data) {
+        this.data = data;
     }
 }
