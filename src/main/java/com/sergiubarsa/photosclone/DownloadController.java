@@ -20,10 +20,8 @@ public class DownloadController {
 
     @GetMapping("/download/{id}")
     public ResponseEntity<byte[]> download(@PathVariable String id) {
-
-        byte[] data;
-
+        Photo photo = photosService.get(id);
         HttpHeaders headers = new HttpHeaders();
-        return new ResponseEntity<>(data, headers, HttpStatus.OK);
+        return new ResponseEntity<>(photo.getData(), headers, HttpStatus.OK);
     }
 }
