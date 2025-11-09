@@ -2,10 +2,14 @@ package com.sergiubarsa.photosclone;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotBlank;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 
+@Table("PHOTOS")
 public class Photo {
 
-    private String id;
+    @Id
+    private Integer id;
 
     @NotBlank
     private String fileName;
@@ -18,10 +22,6 @@ public class Photo {
     public Photo() {
     }
 
-    public Photo(String id, String fileName) {
-        this.fileName = fileName;
-        this.id = id;
-    }
 
     public String getFileName() {
         return fileName;
@@ -31,11 +31,11 @@ public class Photo {
         this.fileName = fileName;
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

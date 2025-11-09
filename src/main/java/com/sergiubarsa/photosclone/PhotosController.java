@@ -33,7 +33,7 @@ public class PhotosController {
 
 
     @GetMapping("/photos/{id}")
-    public Photo get(@PathVariable String id) {
+    public Photo get(@PathVariable int id) {
         Photo photo = photosService.get(id);
         if (photo == null) {
             throw new ResponseStatusException(HttpStatusCode.valueOf(404));
@@ -43,13 +43,8 @@ public class PhotosController {
     }
 
     @DeleteMapping("/photos/{id}")
-    public Photo delete(@PathVariable String id) {
-        Photo removedPhoto = photosService.remove(id);
-        if (removedPhoto == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-
-        return removedPhoto;
+    public void delete(@PathVariable int id) {
+        photosService.remove(id);
     }
 
     @PostMapping("/photos")
